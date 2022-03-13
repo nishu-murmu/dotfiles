@@ -16,6 +16,6 @@ bspc rule -a Screenkey manage=off
 polybar example &
 
 nitrogen --restore &
-picom -f &
+picom --experimental-backends &
 
 ./bspwmrc
