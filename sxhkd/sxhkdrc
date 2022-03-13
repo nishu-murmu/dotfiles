@@ -9,6 +9,8 @@ super + Return
 # program launcher
 super + @space
 	dmenu_run
+super + r 
+  rofi -show drun
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -17,9 +19,16 @@ super + Escape
 # Firefox
 super + f
 	firefox
+  
+#screenshot
+super + p
+  flameshot gui
 #
 # bspwm hotkeys
 #
+# lockscreen
+alt + shift + x
+    betterlockscreen -l dimblur
 
 # quit/restart bspwm
 super + alt + {q,r}
@@ -122,3 +131,9 @@ super + alt + shift + {h,j,k,l}
 # move a floating window
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+XF86MonBrightnessUp
+  brightnessctl set +10%
+XF86MonBrightnessDown
+  brightnessctl set 10%-
+
