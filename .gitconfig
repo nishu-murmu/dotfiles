@@ -1,0 +1,8 @@
+[user]
+	email = nishumurmu017@gmail.com
+	name = nishu-murmu
+[credential]
+	helper = cache --timeout=86400
+[core]
+	editor = nvim
+	autocrlf = input
