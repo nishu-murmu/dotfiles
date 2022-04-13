@@ -1,1 +1,1 @@
-/home/nishu/.local/share/omf/themes/slacker/fish_prompt.fish
+/home/nishu/.config/omf/themes/slacker/fish_prompt.fish
