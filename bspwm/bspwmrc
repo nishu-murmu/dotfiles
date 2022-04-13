@@ -16,4 +16,4 @@ polybar example &
 nitrogen --restore &
 picom --experimental-backends &
 alacritty &
-./bspwmrc
+./bspwmrc &
