@@ -1,1 +1,0 @@
-/home/nishu/.config/omf/themes/slacker/fish_prompt.fish

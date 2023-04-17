@@ -1,11 +1,19 @@
-if status is-interactive
-and not set -q TMUX
-    exec tmux
-end   # Commands to run in interactive sessions can go here
+
 
 if type -q exa
+    # navigation aliases
 	alias ll "exa -l -g --icons"
-	alias lla "ll -a"
+	alias lla "ll -a --icons"
+    alias lg "lazygit" 
+    alias ls "exa --icons"
+    alias la "find . -maxdepth 1 -type f"
+    alias f "fzf --height=20"
+    # git aliases
+    alias gc "git clone"
+    alias gp "git pull"
+    alias ga "git add"
+    alias gd "git diff"
+    alias gp "git push"
 end
 
 neofetch
