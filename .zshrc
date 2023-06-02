@@ -10,10 +10,14 @@ plugins=(git z zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
+
+#terminal aliases
+alias install='sudo pacman -S'
+alias update="sudo pacman -Syyu"
 alias vim='nvim'
 alias e='exit'
 alias c='clear'
-
+# npm aliases
 alias nrd="npm run dev"
 alias nrb="npm run build"
 alias nrt="npm run test"
@@ -26,6 +30,9 @@ alias gpl="git pull"
 alias gs="git status"
 alias gsh="git stash"
 alias gc="git commit"
+alias gch="git checkout"
 alias gcm="git commit -m"
 alias grh="git reset --hard"
 alias gd="git diff"
+#suffix alias
+alias -s tsx=nvim
