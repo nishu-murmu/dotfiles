@@ -1,0 +1,35 @@
+- hosts: localhost
+  become: true
+  pre_tasks:
+    - name: Update packages
+      community.general.pacman:
+        update_cache: true
+        upgrade: true
+        tags:
+          - zsh
+          - core-utils
+  tasks:
+    - name: Install zsh
+      community.general.pacman:
+        name: zsh
+        state: present
+      tags:
+      - zsh
+    - name: Change Shell
+      shell: chsh -s `which zsh`
+    - name: Install oh-my-zsh
+      shell: curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+
+    - name: Install core utils
+      community.general.pacman:
+        name: 
+          - alacritty
+          - htop
+          - gtop
+          - go
+          - ranger
+          - rust-analyzer 
+          - neofetch
+        state: present
+      tags:
+      - core-utils
