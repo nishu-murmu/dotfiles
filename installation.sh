@@ -30,3 +30,8 @@ if [[ -z "$neovim_version" ]]; then
 else
   printf "====>>Neovim is already installed.<<===="
 fi
+
+for i in `cat packages.txt`
+do
+  yes | sudo pacman -S $i
+done
