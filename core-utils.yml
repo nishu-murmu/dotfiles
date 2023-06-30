@@ -1,0 +1,13 @@
+- name: Install core utils
+  community.general.pacman:
+    name:
+      - alacritty
+      - htop
+      - gtop
+      - go
+      - ranger
+      - rust-analyzer
+      - neofetch
+    state: present
+  tags:
+    - core-utils

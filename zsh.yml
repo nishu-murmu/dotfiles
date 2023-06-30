@@ -1,0 +1,10 @@
+- name: Install zsh
+  community.general.pacman:
+    name: zsh
+    state: present
+  tags:
+    - zsh
+- name: Change Shell
+  shell: chsh -s `which zsh`
+- name: Install oh-my-zsh
+  shell: curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
