@@ -1,4 +1,4 @@
-- name: Install core utils
+- name: Installing core utils
   community.general.pacman:
     name:
       - alacritty
@@ -8,6 +8,39 @@
       - ranger
       - rust-analyzer
       - neofetch
+      - ansible
+      - baobab
+      - bzip2
+      - cmatrix
+      - dkms
+      - flameshot
+      - ffmpeg
+      - fd
+      - firefox
+      - fzf
+      - github-cli
+      - gparted
+      - google-chrome
+      - git
+      - lazygit
+      - networkmanager
+      - network-manager-applet
+      - nginx
+      - pulseaudio
+      - python
+      - rust
+      - tar
+      - thunar
+      - nnn
+      - tree-sitter
+      - unrar
+      - unzip
+      - p7zip
+      - wine
+      - wine-gecko
+      - wine-mono
+      - wpa_supplicant
+      - xclip
+      - xfce4
     state: present
-  tags:
-    - core-utils
+  tags: core

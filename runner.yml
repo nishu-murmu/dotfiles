@@ -1,4 +1,6 @@
-- hosts: localhost
+---
+- name: Installation Script running
+  hosts: localhost
   become: true
   pre_tasks:
     - name: Update packages
@@ -6,6 +8,11 @@
         update_cache: true
         upgrade: true
   tasks:
-    - include: ./zsh.yml
-    - include: ./core-utils.yml
-
+    - name: Run zsh file
+      ansible.builtin.include_tasks:
+        file: ./zsh.yml
+      tags: zsh
+    - name: Run Core-utils file
+      ansible.builtin.include_tasks:
+        file: ./core-utils.yml
+      tags: core

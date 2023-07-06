@@ -1,10 +1,16 @@
-- name: Install zsh
+- name: Installing Zsh
   community.general.pacman:
     name: zsh
     state: present
-  tags:
-    - zsh
-- name: Change Shell
+    tags: zsh
+- name: Changing Shell
   shell: chsh -s `which zsh`
-- name: Install oh-my-zsh
+  tags: zsh
+- name: Installing oh-my-zsh
   shell: curl -L https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+  tags: zsh
+- name: Installing Zsh plugins and auto suggestions
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: '~/.oh-my-zsh/plugins/zsh-autosuggestions'
+  tags: zsh
