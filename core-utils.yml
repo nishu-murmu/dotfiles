@@ -5,13 +5,14 @@
       - htop
       - gtop
       - go
+      - nginx
       - ranger
       - rust-analyzer
       - neofetch
       - ansible
       - baobab
       - bzip2
-      - cmatrix
+      - gnome-keyring
       - dkms
       - flameshot
       - ffmpeg
@@ -19,16 +20,13 @@
       - firefox
       - fzf
       - github-cli
-      - gparted
       - google-chrome
       - git
       - lazygit
       - networkmanager
       - network-manager-applet
-      - nginx
       - pulseaudio
       - python
-      - rust
       - tar
       - thunar
       - nnn
