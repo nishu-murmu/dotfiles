@@ -7,6 +7,7 @@
       - go
       - nginx
       - ranger
+      - libfido2
       - rust-analyzer
       - neofetch
       - ansible

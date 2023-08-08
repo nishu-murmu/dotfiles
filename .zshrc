@@ -1,4 +1,4 @@
-if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
+# if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -27,7 +27,7 @@ alias ni="npm install"
 #Git aliases
 alias gi="git init"
 alias gcl="git clone"
-alias ga="git add ."
+alias ga="git add"
 alias gph="git push"
 alias gpl="git pull"
 alias gs="git status"
@@ -36,8 +36,11 @@ alias gc="git commit"
 alias gco="git checkout"
 alias gcm="git commit -m"
 alias grh="git reset --hard"
+alias grm="git rm --cached"
 alias gd="git diff"
 #suffix alias
 alias -s tsx=nvim
 #global alias
 alias -g G="| grep"
+
+bindkey -s ^f "~/tardis.sh\n"
