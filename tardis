@@ -9,7 +9,4 @@ if ! tmux has-session -t "$session_name" 2> /dev/null; then
   tmux new-session -s "$session_name" -c "$session" -D
 fi
 
-
-echo 'chekc'
-echo "$session_name"
 tmux attach -t "$session_name"

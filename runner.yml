@@ -1,12 +1,15 @@
 ---
 - name: Installation Script running
   hosts: localhost
+  connection: local
   become: true
   pre_tasks:
     - name: Update packages
       community.general.pacman:
         update_cache: true
-        upgrade: true
+    - name: Update AUR packages
+      ansible.builtin.shell:
+        cmd: yay -Sua
   tasks:
     - name: Run zsh file
       ansible.builtin.include_tasks:
