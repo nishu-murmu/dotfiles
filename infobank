@@ -11,5 +11,4 @@ if echo "$languages" | grep -qs $selected; then
   tmux split-window -h -p 45 bash -c "curl cht.sh/$selected/$(echo "$query" | tr " " "+") | less"
 else
   tmux split-window -h -p 45 bash -c "curl cht.sh/$selected~$query | less"
-  
 fi

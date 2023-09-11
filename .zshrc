@@ -18,8 +18,8 @@ alias update="sudo pacman -Syyu"
 # alias vim='nvim'
 alias c='clear'
 alias lg='lazygit'
-alias ee="exit"
-alias e='sh ~/exit-script'
+alias e="exit"
+alias k='sh ~/exit-script'
 # npm aliases
 alias nrd="npm run dev"
 alias nrb="npm run build"
@@ -41,10 +41,11 @@ alias grm="git rm --cached"
 alias gd="git diff"
 # tmux aliases
 alias tls="tmux ls"
+alias tlw="tmux list-windows"
 #suffix alias
 alias -s tsx=nvim
 #global alias
-alias -g G="| grep"
+alias -g G="| rg"
 
 bindkey -s ^f "~/tardis\n"
 bindkey -s ^s "~/infobank\n"
