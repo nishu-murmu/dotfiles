@@ -19,7 +19,6 @@ alias update="sudo pacman -Syyu"
 alias c='clear'
 alias lg='lazygit'
 alias e="exit"
-alias k='sh ~/exit-script'
 # npm aliases
 alias nrd="npm run dev"
 alias nrb="npm run build"
@@ -49,3 +48,4 @@ alias -g G="| rg"
 
 bindkey -s ^f "~/tardis\n"
 bindkey -s ^s "~/infobank\n"
+bindkey -s ^e "~/exit-script\n"
