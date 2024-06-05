@@ -1,0 +1,34 @@
+[cursor.style]
+blinking = "Always"
+shape = "Block"
+
+[font]
+size = 10.0
+
+
+[font.normal]
+family = "Hack Nerd Font"
+style = "Regular"
+
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[shell]
+args = ["-l"]
+program = "/bin/zsh"
+
+[window]
+dynamic_title = true
+opacity = 0.9
+startup_mode = "Windowed"
+title = "Alacritty"
+
+[window.dimensions]
+columns = 0
+lines = 0
+
+[window.padding]
+x = 10
+y = 10

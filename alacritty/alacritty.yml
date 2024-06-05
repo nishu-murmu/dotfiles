@@ -110,104 +110,104 @@ font:
 
    
 # Colors (Tomorrow Night)
-colors:
-  # Default colors
-  primary:
-    background: '#1d1f21'
-    foreground: '#ffffff'
-
-    # Bright and dim foreground colors
-   
-    dim_foreground: '#828482'
-    bright_foreground: '#eaeaea'
-
-  # Cursor colors
-    cursor:
-    text: CellBackground
-    cursor: CellForeground
-
-  # Vi mode cursor colors
-    vi_mode_cursor:
-    text: CellBackground
-    cursor: CellForeground
-
-  # Search colors
-  #
-  # Colors used for the search colors.footer_bar and match highlighting.
-  search:
-    # Allowed values are CellForeground/CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    matches:
-      foreground: '#000000'
-      background: '#ffffff'
-    focused_match:
-      foreground: '#ffffff'
-      background: '#000000'
-
-    colors.footer_bar:
-      background: '#c5c8c6'
-      foreground: '#1d1f21'
-
-  # Keyboard regex hints
-  hints:
-    # First character in the hint label
-    #
-    # Allowed values are CellForeground/CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    start:
-      foreground: '#1d1f21'
-      background: '#e9ff5e'
-
-    # All characters after the first one in the hint label
-    #
-    # Allowed values are CellForeground/CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    end:
-      foreground: '#e9ff5e'
-      background: '#1d1f21'
-
-  # Line indicator
+# colors:
+#   # Default colors
+#   # primary:
+#   #   background: '#1d1f21'
+#   #   foreground: '#ffffff'
+#
+#     # Bright and dim foreground colors
+#    
+#     dim_foreground: '#828482'
+#     bright_foreground: '#eaeaea'
+#
+#   # Cursor colors
+#     cursor:
+#       text: CellBackground
+#       cursor: CellForeground
+#
+#   # Vi mode cursor colors
+#     vi_mode_cursor:
+#     text: CellBackground
+#     cursor: CellForeground
+#
+#   # Search colors
+#   #
+#   # Colors used for the search colors.footer_bar and match highlighting.
+#   search:
+#     # Allowed values are CellForeground/CellBackground, which reference the
+#     # affected cell, or hexadecimal colors like #ff00ff.
+#     matches:
+#       foreground: '#000000'
+#       background: '#ffffff'
+#     focused_match:
+#       foreground: '#ffffff'
+#       background: '#000000'
+#
+#     colors.footer_bar:
+#       background: '#c5c8c6'
+#       foreground: '#1d1f21'
+#
+#   # Keyboard regex hints
+#   hints:
+#     # First character in the hint label
+#     #
+#     # Allowed values are CellForeground/CellBackground, which reference the
+#     # affected cell, or hexadecimal colors like #ff00ff.
+#     start:
+#       foreground: '#1d1f21'
+#       background: '#e9ff5e'
+#
+#     # All characters after the first one in the hint label
+#     #
+#     # Allowed values are CellForeground/CellBackground, which reference the
+#     # affected cell, or hexadecimal colors like #ff00ff.
+#     end:
+#       foreground: '#e9ff5e'
+#       background: '#1d1f21'
+#
+#   # Line indicator
   line_indicator:
     foreground: None
     background: None
-
-  # Selection colors
+#
+#   # Selection colors
   selection:
     text: CellBackground
     background: CellForeground
-
+#
   # Normal colors
-  normal:
-    black:   '#1d1f21'
-    red:     '#EE4B2B'
-    green:   '#228B22'
-    yellow:  '#f0c674'
-    blue:    '#0096FF'
-    magenta: '#b294bb'
-    cyan:    '#8abeb7'
-    white:   '#c5c8c6'
+  # normal:
+  #   black:   '#1d1f21'
+  #   red:     '#EE4B2B'
+  #   green:   '#228B22'
+  #   yellow:  '#f0c674'
+  #   blue:    '#0096FF'
+  #   magenta: '#b294bb'
+  #   cyan:    '#8abeb7'
+  #   white:   '#c5c8c6'
 
   # Bright colors
-  bright:
-    black:   '#666666'
-    red:     '#d54e53'
-    green:   '#b9ca4a'
-    yellow:  '#e7c547'
-    blue:    '#7aa6da'
-    magenta: '#c397d8'
-    cyan:    '#70c0b1'
-    white:   '#eaeaea'
+  # bright:
+  #   black:   '#666666'
+  #   red:     '#d54e53'
+  #   green:   '#b9ca4a'
+  #   yellow:  '#e7c547'
+  #   blue:    '#7aa6da'
+  #   magenta: '#c397d8'
+  #   cyan:    '#70c0b1'
+  #   white:   '#eaeaea'
 
   # Dim colors
-    dim:
-    black:   '#828482'
-    red:     '#864343'
-    green:   '#777c44'
-    yellow:  '#9e824c'
-    blue:    '#556a7d'
-    magenta: '#75617b'
-    cyan:    '#5b7d78'
-    white:   '#828482'
+    # dim:
+    # black:   '#828482'
+    # red:     '#864343'
+    # green:   '#777c44'
+    # yellow:  '#9e824c'
+    # blue:    '#556a7d'
+    # magenta: '#75617b'
+    # cyan:    '#5b7d78'
+    # white:   '#828482'
 
 cursor:
   # Cursor style
