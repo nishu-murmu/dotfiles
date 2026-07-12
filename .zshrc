@@ -1,5 +1,3 @@
-#if [ -t 0 ] && [[ -z $TMUX ]] && [[ $- = *i* ]]; then exec tmux; fi
-
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 autoload -U compinit && compinit
@@ -14,7 +12,8 @@ source $ZSH/oh-my-zsh.sh
 #terminal aliases
 alias install='sudo pacman -S'
 alias remove="sudo pacman -R"
-alias update="sudo pacman -Syyu"
+alias update="sudo pacman -Syu"
+alias update_cursor="sh ~/.local/Scripts/cursor-update"
 # alias vim='nvim'
 alias c='clear'
 alias lg='lazygit'
@@ -45,7 +44,31 @@ alias tlw="tmux list-windows"
 alias -s tsx=nvim
 #global alias
 alias -g G="| rg"
+alias cursor="/home/$USER/Applications/cursor.AppImage --no-sandbox"
 
-bindkey -s ^f "~/tardis\n"
-bindkey -s ^s "~/infobank\n"
-bindkey -s ^e "~/exit-script\n"
+bindkey -s ^f "~/.local/Scripts/tardis\n"
+bindkey -s ^s "~/.local/Scripts/infobank\n"
+bindkey -s ^e "~/.local/Scripts/exit-script\n"
+
+
+# vscodium-portable amos 
+alias code-amos="$HOME/apps/vscodium-portable/codium \
+  --user-data-dir $HOME/apps/vscodium-portable/data \
+  --extensions-dir $HOME/apps/vscodium-portable/extensions"
+# pnpm
+export PNPM_HOME="/home/nishu/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# bun completions
+[ -s "/home/nishu/.bun/_bun" ] && source "/home/nishu/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# opencode
+export PATH=/home/nishu/.opencode/bin:$PATH

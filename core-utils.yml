@@ -35,9 +35,6 @@
       - unrar
       - unzip
       - p7zip
-      - wine
-      - wine-gecko
-      - wine-mono
       - wpa_supplicant
       - xclip
       - xfce4
