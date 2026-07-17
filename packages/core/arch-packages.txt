@@ -11,6 +11,10 @@ baobab
 unzip
 zip
 firefox
+git
+curl
+fzf
+xdotool
 docker
 docker-compose
 docker-machine

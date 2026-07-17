@@ -9,6 +9,10 @@ unzip
 zip
 neovim
 firefox
+git
+curl
+fzf
+xdotool
 docker
 docker-compose-plugin
 dmenu

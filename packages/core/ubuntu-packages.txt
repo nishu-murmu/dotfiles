@@ -8,6 +8,10 @@ baobab
 unzip
 zip
 firefox
+git
+curl
+fzf
+xdotool
 docker-compose-plugin      
 suckless-tools
 dkms
