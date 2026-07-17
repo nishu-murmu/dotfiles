@@ -7,8 +7,6 @@ chmod +x ./packages/scripts/fedora-install.sh
 
 OS=$(./packages/utils/find-os.sh)
 
-echo "$OS"
-
 # Core Utils installation, OS wise.
 case "$OS" in
     arch)

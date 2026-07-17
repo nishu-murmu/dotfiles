@@ -13,6 +13,7 @@ docker.io
 docker-compose
 dmenu
 dkms
+neovim
 dbus
 linux-headers-amd64
 htop
