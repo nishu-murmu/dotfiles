@@ -2,16 +2,18 @@
   community.general.pacman:
     name: zsh
     state: present
-  when: ansible_distribution == 'Archlinux'
+  when: ansible_fact_distribution == 'Archlinux'
   tags:
     - zsh
 
 - name: Install zsh on Debian and Ubuntu
   ansible.builtin.apt:
-    name: zsh
+    name:
+    - zsh
+    - curl
     state: present
     update_cache: true
-  when: ansible_os_family == 'Debian'
+  when: ansible_fact_os_family == 'Debian'
   tags:
     - zsh
 
@@ -20,7 +22,7 @@
     name: zsh
     state: present
     update_cache: true
-  when: ansible_os_family == 'RedHat'
+  when: ansible_fact_os_family == 'RedHat'
   tags:
     - zsh
 - name: Change Shell

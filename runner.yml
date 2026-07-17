@@ -7,25 +7,25 @@
     - name: Update pacman package cache
       community.general.pacman:
         update_cache: true
-      when: ansible_distribution == 'Archlinux'
+      when: ansible_fact_distribution == 'Archlinux'
     - name: Update apt package cache
       ansible.builtin.apt:
         update_cache: true
-      when: ansible_os_family == 'Debian'
+      when: ansible_fact_os_family == 'Debian'
     - name: Update dnf package cache
       ansible.builtin.dnf:
         update_cache: true
-      when: ansible_os_family == 'RedHat'
+      when: ansible_fact_os_family == 'RedHat'
     - name: Check if yay is installed
       ansible.builtin.command: which yay
       register: yay_check
       changed_when: false
       failed_when: false
-      when: ansible_distribution == 'Archlinux'
+      when: ansible_fact_distribution == 'Archlinux'
     - name: Update AUR packages
       ansible.builtin.command: yay -Sua --noconfirm
       when:
-        - ansible_distribution == 'Archlinux'
+        - ansible_fact_distribution == 'Archlinux'
         - yay_check.rc == 0
   tasks:
     - name: Run zsh file
