@@ -7,7 +7,7 @@ if [[ ! -f "$PACKAGE_LIST_FILE" ]]; then
 fi
 
 echo "Updating package lists..."
-sudo dnf check-update || true
+dnf check-update || true
 
 echo "Installing core utilities..."
-xargs -a "$PACKAGE_LIST_FILE" sudo dnf install -y
+xargs -a "$PACKAGE_LIST_FILE" dnf install -y

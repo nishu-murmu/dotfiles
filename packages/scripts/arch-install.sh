@@ -7,8 +7,8 @@ if [[ ! -f "$PACKAGE_LIST_FILE" ]]; then
 fi
 
 echo "Updating package lists..."
-sudo pacman -Sy
+pacman -Sy
 
 echo "Installing core utilities..."
 mapfile -t packages < "$PACKAGE_LIST_FILE"
-sudo pacman -S --needed "${packages[@]}"
+pacman -S --needed "${packages[@]}"

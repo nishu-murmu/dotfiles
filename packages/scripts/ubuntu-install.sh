@@ -7,7 +7,7 @@ if [[ ! -f "$PACKAGE_LIST_FILE" ]]; then
 fi
 
 echo "Updating package lists..."
-sudo apt-get update
+apt-get update
 
 echo "Installing core utilities..."
-xargs -a "$PACKAGE_LIST_FILE" sudo apt-get install -y
+xargs -a "$PACKAGE_LIST_FILE" apt-get install -y
