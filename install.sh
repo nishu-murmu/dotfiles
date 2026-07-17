@@ -1,9 +1,9 @@
 # Giving scripts permissions
 chmod +x ./packages/utils/find-os.sh
 chmod +x ./packages/utils/install-neovim.sh
-chmod +x ./packages/packages/arch-install.sh
-chmod +x ./packages/packages/ubuntu-install.sh
-chmod +x ./packages/packages/fedora-install.sh
+chmod +x ./packages/arch-install.sh
+chmod +x ./packages/ubuntu-install.sh
+chmod +x ./packages/fedora-install.sh
 
 OS=$(./packages/utils/find-os.sh)
 
@@ -14,17 +14,17 @@ case "$OS" in
     arch)
         echo "OS Found: Arch Linux"
         echo "Installing Arch Packages..."
-        ./arch-install.sh
+        ./packages/arch-install.sh
         ;;
     ubuntu)
         echo "OS Found: Ubuntu/Debian"
         echo "Installing Ubuntu/Debian Packages..."
-        ./ubuntu-install.sh
+        ./packages/ubuntu-install.sh
         ;;
     fedora)
         echo "OS Found: Fedora"
         echo "Installing Fedora Packages..."
-        ./fedora-install.sh
+        ./packages/fedora-install.sh
         ;;
 esac
 
