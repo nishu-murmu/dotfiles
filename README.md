@@ -1,9 +1,8 @@
-<h1 align="center">Dotfiles</h1>
+<div align="center">
 
-<h4 align="center">Arch + BSPWM</h4>
+<h1 align="center">My Dotfiles</h1>
 
-![music clock ranger](https://user-images.githubusercontent.com/71123337/163685450-eb0eb9e5-8a9b-4695-b303-62cde9f0eb36.png)
-![gtop](https://user-images.githubusercontent.com/71123337/163685460-23852a7c-4322-453b-a7f5-463017b044b3.png)
+</div>
 
 <h2 align="center">Tables of Contents</h2>
 <div align="center">
@@ -11,11 +10,21 @@
 **No.**|**Application**|**Source**
 -----|-----|-----
 |1. | **OS** | [**Arch Linux**](https://archlinux.org/download/)|
-|2. | **WM** | [**BSPWM**](https://github.com/baskerville/bspwm)|
+|2. | **WM** | [**i3**](https://i3wm.org/)|
 |3. | **Editor** | [**NeoVim**](https://neovim.io/)|
 |4. | **Terminal** | [**alacritty**](https://github.com/alacritty/alacritty)|
 |5. | **Multiplexer** | [**tmux**](https://github.com/tmux/tmux)|
-|6. | **Audio** | [**BSPWM**](https://github.com/baskerville/bspwm)|  
+|6. | **Audio** | [**pulseaudio**](https://www.freedesktop.org/wiki/Software/PulseAudio/)|  
 |7. | **Monitor** | [**gtop**](https://github.com/aksakalli/gtop)|
 |8. | **File Manager** | [**ranger**](https://github.com/ranger/ranger)|
-</div> 
+</div>
+
+## Installer support
+
+The desktop setup in this repository is still primarily built around Arch Linux and BSPWM, but the Ansible package installation now supports these distro families as well:
+
+- Arch-based systems via `pacman`
+- Debian and Ubuntu-based systems via `apt`
+- Fedora-based systems via `dnf`
+
+Package names are not identical across distros, so the non-Arch package lists are slightly trimmed where a package is Arch or AUR-specific, such as `google-chrome` and `gtop`.

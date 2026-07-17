@@ -1,42 +1,147 @@
-- name: Installing core utils
+- name: Installing core utils on Arch Linux
   community.general.pacman:
     name:
+      - rust-analyzer
+      - pulseaudio
+      - pulseaudio-alsa
+      - p7zip
+      - neofetch
+      - mutter
+      - linux
       - alacritty
+      - baobab
+      - unzip
+      - zip
+      - firefox
+      - docker
+      - docker-compose
+      - docker-machine
+      - dmenu
+      - dkms
+      - base
+      - dbus
+      - linux-headers
       - htop
       - gtop
       - go
-      - nginx
-      - ranger
-      - libfido2
-      - rust-analyzer
-      - neofetch
-      - ansible
-      - baobab
-      - bzip2
-      - gnome-keyring
-      - dkms
       - flameshot
-      - ffmpeg
-      - fd
-      - firefox
-      - fzf
-      - github-cli
-      - google-chrome
-      - git
       - lazygit
-      - networkmanager
+      - mutt
+      - ncmpcpp
+      - network-manager
       - network-manager-applet
-      - pulseaudio
       - python
-      - tar
-      - thunar
-      - nnn
-      - tree-sitter
-      - unrar
-      - unzip
-      - p7zip
-      - wpa_supplicant
+      - ranger
+      - ripgrep
+      - which
+      - wget
+      - z
+      - zsh
       - xclip
-      - xfce4
+      - lsof
+      - tar
+      - unrar
+      - wpa_supplicant
+      - tmux
+      - tree-sitter
+      - thunar
     state: present
+  when: ansible_distribution == 'Archlinux'
+  tags: core
+
+- name: Installing core utils on Debian and Ubuntu
+  ansible.builtin.apt:
+    name:
+      - rust-analyzer
+      - pulseaudio
+      - p7zip-full
+      - neofetch
+      - mutter
+      - linux-image-amd64  # or appropriate for arch, adjust for armhf/arm64 etc
+      - alacritty
+      - baobab
+      - unzip
+      - zip
+      - "{{ 'firefox' if ansible_distribution == 'Ubuntu' else 'firefox-esr' }}"
+      - docker.io
+      - docker-compose
+      - dmenu
+      - dkms
+      - dbus
+      - linux-headers-amd64  # or appropriate for arch
+      - htop
+      - gtop
+      - golang-go
+      - flameshot
+      - lazygit
+      - mutt
+      - ncmpcpp
+      - network-manager
+      - network-manager-gnome
+      - python3
+      - ranger
+      - ripgrep
+      - which
+      - wget
+      - zoxide  # generally z available as zoxide or other name
+      - zsh
+      - xclip
+      - lsof
+      - tar
+      - unrar-free
+      - wpasupplicant
+      - tmux
+      - tree-sitter-cli
+      - thunar
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'Debian'
+  tags: core
+
+- name: Installing core utils on Fedora
+  ansible.builtin.dnf:
+    name:
+      - rust-analyzer
+      - pulseaudio
+      - p7zip
+      - neofetch
+      - mutter
+      - alacritty
+      - baobab
+      - unzip
+      - zip
+      - firefox
+      - docker
+      - docker-compose
+      - dmenu
+      - dkms
+      - dbus
+      - kernel-headers
+      - htop
+      - gtop
+      - golang
+      - flameshot
+      - lazygit
+      - mutt
+      - ncmpcpp
+      - NetworkManager
+      - nm-applet
+      - python3
+      - ranger
+      - ripgrep
+      - which
+      - wget
+      - zoxide
+      - zsh
+      - xclip
+      - lsof
+      - tar
+      - unrar
+      - wpa_supplicant
+      - tmux
+      - tree-sitter
+      - thunar
+    state: present
+    update_cache: true
+  when: ansible_os_family == 'RedHat'
   tags: core
