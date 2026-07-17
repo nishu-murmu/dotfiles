@@ -1,11 +1,7 @@
-<div align="center">
-
 <h1 align="center">My Dotfiles</h1>
 
-</div>
-
-<h2 align="center">Tables of Contents</h2>
-<div align="center">
+<h2>Tables of Contents</h2>
+<div>
 
 **No.**|**Application**|**Source**
 -----|-----|-----
@@ -19,12 +15,32 @@
 |8. | **File Manager** | [**ranger**](https://github.com/ranger/ranger)|
 </div>
 
+## Installation
+
+From the repository root:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+The script:
+
+1. Detects the distro with `packages/utils/find-os.sh`
+2. Installs packages from `packages/core/<distro>-packages.txt` via the matching script under `packages/scripts/`
+3. Copies `.tmux.conf`, `.xinitrc`, and `.zshrc` into your home directory
+4. Installs the Neovim config with `packages/utils/install-neovim.sh` (clones [nvim](https://github.com/nishu-murmu/nvim) into `~/.config/nvim`)
+
+Additional configs (for example `i3/`, `alacritty/`, `picom/`, `rofi/`, `betterlockscreen/`) live in this repo but are not deployed by `install.sh`; link or copy them into `~/.config` (or the paths your tools expect) as needed.
+
 ## Installer support
 
-The desktop setup in this repository is still primarily built around Arch Linux and BSPWM, but the Ansible package installation now supports these distro families as well:
+The desktop setup is primarily built around Arch Linux and i3. Package installation is handled with native shell scripts (Ansible playbooks were removed in favor of bash).
 
-- Arch-based systems via `pacman`
-- Debian and Ubuntu-based systems via `apt`
-- Fedora-based systems via `dnf`
+Supported distro families:
 
-Package names are not identical across distros, so the non-Arch package lists are slightly trimmed where a package is Arch or AUR-specific, such as `google-chrome` and `gtop`.
+- Arch-based systems via `pacman` (`packages/scripts/arch-install.sh`)
+- Debian and Ubuntu-based systems via `apt` (`packages/scripts/ubuntu-install.sh`)
+- Fedora-based systems via `dnf` (`packages/scripts/fedora-install.sh`)
+
+Package names differ between distros, so the Ubuntu and Fedora lists in `packages/core/` are trimmed where a package is Arch- or AUR-specific (for example `google-chrome` and `gtop` on non-Arch lists).

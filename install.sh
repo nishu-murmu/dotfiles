@@ -1,4 +1,11 @@
-OS=./packages/utils/find-os.sh
+# Giving scripts permissions
+chmod +x ./packages/utils/find-os.sh
+chmod +x ./packages/utils/install-neovim.sh
+chmod +x ./packages/packages/arch-install.sh
+chmod +x ./packages/packages/ubuntu-install.sh
+chmod +x ./packages/packages/fedora-install.sh
+
+OS=$(./packages/utils/find-os.sh)
 
 echo "$OS"
 
