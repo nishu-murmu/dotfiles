@@ -10,7 +10,7 @@ zip
 neovim
 firefox
 docker
-docker-compose
+docker-compose-plugin
 dmenu
 dkms
 dbus
