@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+mkdir -p "$HOME/Applications"
+cd "$HOME/Applications/" || exit
+
+rm -f cursor.AppImage
+
+curl -Lo cursor.AppImage "https://api2.cursor.sh/updates/download/golden/linux-x64/cursor/"
+
+chmod +x cursor.AppImage
