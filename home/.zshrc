@@ -1,29 +1,28 @@
-# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 autoload -U compinit && compinit
 ZSH_THEME="robbyrussell"
 
-
 plugins=(fzf git z zsh-autosuggestions)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH/oh-my-zsh.sh"
 
-
-#terminal aliases
+# pacman
 alias install='sudo pacman -S'
 alias remove="sudo pacman -R"
 alias update="sudo pacman -Syu"
-alias update_cursor="sh ~/.local/Scripts/cursor-update"
-# alias vim='nvim'
+
+# general
 alias c='clear'
-alias lg='lazygit'
 alias e="exit"
-# npm aliases
+alias lg='lazygit'
+
+# npm
 alias nrd="npm run dev"
 alias nrb="npm run build"
 alias nrt="npm run test"
 alias ni="npm install"
-#Git aliases
+
+# git
 alias gi="git init"
 alias gcl="git clone"
 alias ga="git add"
@@ -37,38 +36,34 @@ alias gcm="git commit -m"
 alias grh="git reset --hard"
 alias grm="git rm --cached"
 alias gd="git diff"
-# tmux aliases
+
+# tmux
 alias tls="tmux ls"
 alias tlw="tmux list-windows"
-#suffix alias
+
+# suffix aliases
 alias -s tsx=nvim
-#global alias
+
+# global aliases
 alias -g G="| rg"
-alias cursor="/home/$USER/Applications/cursor.AppImage --no-sandbox"
 
-bindkey -s ^f "~/.local/Scripts/tardis\n"
-bindkey -s ^s "~/.local/Scripts/infobank\n"
-bindkey -s ^e "~/.local/Scripts/exit-script\n"
+# cursor
+alias cursor="$HOME/Applications/cursor.AppImage --no-sandbox"
+alias update_cursor="sh $HOME/.local/Scripts/cursor-update"
 
+# keybindings
+bindkey -s ^f "$HOME/.local/Scripts/tardis\n"
+bindkey -s ^s "$HOME/.local/Scripts/infobank\n"
+bindkey -s ^e "$HOME/.local/Scripts/exit-script\n"
 
-# vscodium-portable amos 
-alias code-amos="$HOME/apps/vscodium-portable/codium \
-  --user-data-dir $HOME/apps/vscodium-portable/data \
-  --extensions-dir $HOME/apps/vscodium-portable/extensions"
 # pnpm
-export PNPM_HOME="/home/nishu/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
-# pnpm end
-
-# bun completions
-[ -s "/home/nishu/.bun/_bun" ] && source "/home/nishu/.bun/_bun"
 
 # bun
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# opencode
-export PATH=/home/nishu/.opencode/bin:$PATH
