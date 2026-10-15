@@ -19,9 +19,11 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 
 **Packages:** i3-wm, alacritty, tmux, neovim, picom, rofi, feh, zsh, fzf, ripgrep, lazygit, docker, go, flameshot, copyq, and more.
 
+**Audio:** ALSA drivers and firmware (`alsa-utils`, `alsa-firmware`, `alsa-ucm-conf`, `sof-firmware`) plus the PipeWire sound server (`pipewire`, `pipewire-alsa`, `pipewire-pulse`, `pipewire-jack`, `wireplumber`) and `pavucontrol`. PulseAudio is removed if present.
+
 **AUR (via yay):** betterlockscreen, i3lock-color
 
-**Extras:** Oh My Zsh + zsh-autosuggestions, TPM (tmux plugin manager), Hack Nerd Font, Neovim config
+**Extras:** Oh My Zsh + zsh-autosuggestions, TPM (tmux plugin manager), Hack Nerd Font, Neovim config, PipeWire user services (`pipewire`, `pipewire-pulse`, `wireplumber`)
 
 ## What Gets Configured
 
@@ -37,6 +39,32 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 | Xinit | `~/.xinitrc` |
 | Neovim | `~/.config/nvim/` |
 | Scripts | `~/.local/Scripts/` |
+
+## Audio
+
+Audio is set up as two layers:
+
+- **ALSA** (kernel drivers + firmware): `alsa-firmware` and `sof-firmware` cover most laptop and desktop sound chips.
+- **PipeWire** (sound server): handles playback, Bluetooth, and volume routing. `pipewire-pulse` exposes the PulseAudio API, so `pactl` and the i3 volume keys keep working.
+
+Manage volume with `pavucontrol` or `alsamixer`.
+
+### ALSA only (no sound server)
+
+If you don't want PipeWire, skip the audio services and use ALSA directly:
+
+```bash
+sudo pacman -S alsa-utils alsa-firmware
+alsamixer   # F6 to pick the card, M to unmute
+```
+
+### Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| No sound / muted | Run `alsamixer`, press `F6` to pick the card, and `M` to unmute |
+| No sound after install | `systemctl --user status pipewire wireplumber`, then restart them with `systemctl --user restart pipewire pipewire-pulse wireplumber` |
+| Popping on Intel HDA (`snd_hda_intel`) | Disable power saving in `/etc/modprobe.d/alsa-base.conf`: `options snd_hda_intel power_save=0 power_save_controller=N`, then reboot. This uses more power on battery. |
 
 ## Keybindings
 
@@ -74,6 +102,7 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 1. Log out and back in (zsh becomes default shell)
 2. Select **i3** at the login screen
 3. In tmux, press `Ctrl+a` then `I` to install plugins
+4. Audio: the install enables PipeWire for your user. If that step warned, run `systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service` after logging in.
 
 ## Structure
 

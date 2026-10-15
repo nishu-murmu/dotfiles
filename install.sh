@@ -40,6 +40,21 @@ clone_dotfiles() {
     success "Dotfiles ready at $DOTFILES_DIR"
 }
 
+remove_pulseaudio() {
+    # PipeWire's pipewire-pulse conflicts with PulseAudio, so drop it first
+    local legacy=()
+    for pkg in pulseaudio pulseaudio-alsa; do
+        if pacman -Qi "$pkg" &>/dev/null; then
+            legacy+=("$pkg")
+        fi
+    done
+
+    if (( ${#legacy[@]} > 0 )); then
+        info "Removing PulseAudio (replaced by PipeWire): ${legacy[*]}"
+        sudo pacman -Rns --noconfirm "${legacy[@]}"
+    fi
+}
+
 install_packages() {
     info "Updating package database..."
     sudo pacman -Sy --noconfirm
@@ -66,8 +81,10 @@ install_packages() {
         go rust-analyzer python
         tree-sitter-cli
 
-        # Audio
-        pulseaudio pulseaudio-alsa
+        # Audio: ALSA drivers + firmware, PipeWire sound server (replaces PulseAudio)
+        alsa-utils alsa-firmware alsa-ucm-conf sof-firmware
+        pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
+        pavucontrol
 
         # Networking
         networkmanager network-manager-applet
@@ -217,6 +234,17 @@ enable_services() {
     success "Services configured"
 }
 
+enable_audio() {
+    info "Enabling PipeWire audio services..."
+    # User units need a running user session; warn instead of failing if there isn't one
+    if systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service 2>/dev/null; then
+        success "PipeWire audio services enabled"
+    else
+        warn "Could not enable PipeWire user services. Run this from your user session after login:"
+        warn "  systemctl --user enable --now pipewire.service pipewire-pulse.service wireplumber.service"
+    fi
+}
+
 main() {
     echo ""
     echo -e "${BLUE}==============================${NC}"
@@ -226,6 +254,7 @@ main() {
 
     check_arch
     clone_dotfiles
+    remove_pulseaudio
     install_packages
     install_yay
     install_aur_packages
@@ -235,6 +264,7 @@ main() {
     deploy_configs
     set_default_shell
     enable_services
+    enable_audio
 
     echo ""
     echo -e "${GREEN}==============================${NC}"
