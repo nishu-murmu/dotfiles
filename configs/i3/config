@@ -36,6 +36,10 @@ exec --no-startup-id dex --autostart --environment i3
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
+# XDG Desktop Portal provides file picker dialogs ("Open File", "Choose Folder")
+# to apps. Start it with the session; the GTK backend renders the dialogs.
+exec --no-startup-id /usr/lib/xdg-desktop-portal --replace
+
 # Use pactl to adjust volume. PipeWire serves the PulseAudio API via pipewire-pulse.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status

@@ -86,6 +86,9 @@ install_packages() {
         pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber
         pavucontrol
 
+        # File pickers: XDG Desktop Portal with GTK backend (i3 has no portal by default)
+        xdg-desktop-portal xdg-desktop-portal-gtk xdg-utils
+
         # Networking
         networkmanager network-manager-applet
         wpa_supplicant
@@ -193,7 +196,7 @@ deploy_configs() {
     info "Deploying configs..."
     mkdir -p "$HOME/.config"
 
-    local config_dirs=(alacritty i3 picom rofi betterlockscreen)
+    local config_dirs=(alacritty i3 picom rofi betterlockscreen xdg-desktop-portal)
     for dir in "${config_dirs[@]}"; do
         if [[ -d "$DOTFILES_DIR/configs/$dir" ]]; then
             mkdir -p "$HOME/.config/$dir"

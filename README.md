@@ -19,6 +19,8 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 
 **Packages:** i3-wm, alacritty, tmux, neovim, picom, rofi, feh, zsh, fzf, ripgrep, lazygit, docker, go, flameshot, copyq, and more.
 
+**File pickers:** `xdg-desktop-portal` with the GTK backend (`xdg-desktop-portal-gtk`) and `xdg-utils`. These power the "Open File" and "Choose Folder" dialogs.
+
 **Audio:** ALSA drivers and firmware (`alsa-utils`, `alsa-firmware`, `alsa-ucm-conf`, `sof-firmware`) plus the PipeWire sound server (`pipewire`, `pipewire-alsa`, `pipewire-pulse`, `pipewire-jack`, `wireplumber`) and `pavucontrol`. PulseAudio is removed if present.
 
 **AUR (via yay):** betterlockscreen, i3lock-color
@@ -36,7 +38,8 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 | Betterlockscreen | `~/.config/betterlockscreen/betterlockscreenrc` |
 | Zsh | `~/.zshrc` |
 | Tmux | `~/.tmux.conf` |
-| Xinit | `~/.xinitrc` |
+| Xinit | `~/.xinitrc` (also sets `GTK_USE_PORTAL=1`) |
+| XDG Desktop Portal | `~/.config/xdg-desktop-portal/portals.conf` |
 | Neovim | `~/.config/nvim/` |
 | Scripts | `~/.local/Scripts/` |
 
@@ -64,6 +67,8 @@ alsamixer   # F6 to pick the card, M to unmute
 |---------|-----|
 | No sound / muted | Run `alsamixer`, press `F6` to pick the card, and `M` to unmute |
 | No sound after install | `systemctl --user status pipewire wireplumber`, then restart them with `systemctl --user restart pipewire pipewire-pulse wireplumber` |
+| File picker doesn't open ("Open File" / "Choose Folder") | Check that `xdg-desktop-portal` and `xdg-desktop-portal-gtk` are installed, then restart the portal with `/usr/lib/xdg-desktop-portal --replace &`. If it still fails, log out and back in so `.xinitrc` and the i3 startup line take effect. |
+| Flatpak app file picker still broken | Install the backend that matches your toolkit, for example `xdg-desktop-portal-kde` for Qt apps |
 | Popping on Intel HDA (`snd_hda_intel`) | Disable power saving in `/etc/modprobe.d/alsa-base.conf`: `options snd_hda_intel power_save=0 power_save_controller=N`, then reboot. This uses more power on battery. |
 
 ## Keybindings
