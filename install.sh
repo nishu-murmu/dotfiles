@@ -55,6 +55,52 @@ remove_pulseaudio() {
     fi
 }
 
+# Hyprland (Wayland) session and the tools its config uses
+HYPRLAND_PACKAGES=(
+    hyprland hyprlock hypridle hyprpolkitagent hyprshutdown
+    xdg-desktop-portal-hyprland qt5-wayland qt6-wayland
+    waybar swaybg dunst libnotify
+    grim slurp wl-clipboard cliphist jq
+    brightnessctl playerctl
+)
+
+# pacman_install pkg... — installs what's in the repos, skips the rest
+pacman_install() {
+    local available=()
+    local missing=()
+    local provided=()
+
+    for pkg in "$@"; do
+        # Skip packages another installed package already provides, e.g.
+        # docker-desktop provides (and conflicts with) docker-compose.
+        # --needed doesn't catch this, and --noconfirm would refuse the
+        # removal prompt and abort the whole transaction.
+        local provider
+        provider=$(pacman -Qq "$pkg" 2>/dev/null || true)
+        if [[ -n "$provider" && "$provider" != "$pkg" ]]; then
+            provided+=("$pkg (by $provider)")
+        elif pacman -Si "$pkg" &>/dev/null; then
+            available+=("$pkg")
+        else
+            missing+=("$pkg")
+        fi
+    done
+
+    if (( ${#provided[@]} > 0 )); then
+        info "Already provided by installed packages (skipping): ${provided[*]}"
+    fi
+
+    if (( ${#missing[@]} > 0 )); then
+        warn "Not in repos (skipping): ${missing[*]}"
+    fi
+
+    if (( ${#available[@]} > 0 )); then
+        info "Installing ${#available[@]} packages..."
+        sudo pacman -S --needed --noconfirm "${available[@]}"
+        success "Packages installed"
+    fi
+}
+
 install_packages() {
     info "Updating package database..."
     sudo pacman -Sy --noconfirm
@@ -103,28 +149,12 @@ install_packages() {
         htop lsof tar unzip zip unrar p7zip
         which neofetch lazygit
         dbus
+
+        # Hyprland session
+        "${HYPRLAND_PACKAGES[@]}"
     )
 
-    local available=()
-    local missing=()
-
-    for pkg in "${packages[@]}"; do
-        if pacman -Si "$pkg" &>/dev/null; then
-            available+=("$pkg")
-        else
-            missing+=("$pkg")
-        fi
-    done
-
-    if (( ${#missing[@]} > 0 )); then
-        warn "Not in repos (skipping): ${missing[*]}"
-    fi
-
-    if (( ${#available[@]} > 0 )); then
-        info "Installing ${#available[@]} packages..."
-        sudo pacman -S --needed --noconfirm "${available[@]}"
-        success "Packages installed"
-    fi
+    pacman_install "${packages[@]}"
 }
 
 install_yay() {
@@ -195,17 +225,47 @@ install_neovim_config() {
     fi
 }
 
+deploy_config_dir() {
+    local dir="$1"
+    if [[ -d "$DOTFILES_DIR/configs/$dir" ]]; then
+        mkdir -p "$HOME/.config/$dir"
+        cp -r "$DOTFILES_DIR/configs/$dir/." "$HOME/.config/$dir/"
+        success "  $dir -> ~/.config/$dir"
+    fi
+}
+
+# Only what the Hyprland session needs (used by `./install.sh hyprland`)
+deploy_hyprland_configs() {
+    info "Deploying Hyprland configs..."
+    local dir
+    for dir in hypr waybar dunst rofi alacritty xdg-desktop-portal; do
+        deploy_config_dir "$dir"
+    done
+
+    # Wallpapers live with the i3 config and are shared by both sessions
+    mkdir -p "$HOME/.config/i3/Wallpapers"
+    cp -r "$DOTFILES_DIR/configs/i3/Wallpapers/." "$HOME/.config/i3/Wallpapers/"
+    success "  wallpapers -> ~/.config/i3/Wallpapers"
+
+    # Check the config against the installed Hyprland version
+    if command -v Hyprland &>/dev/null; then
+        local result
+        result=$(Hyprland --verify-config -c "$HOME/.config/hypr/hyprland.lua" 2>&1 || true)
+        if grep -q '^config ok' <<< "$result"; then
+            success "Hyprland config verified"
+        else
+            warn "Hyprland reports config errors. See: Hyprland --verify-config"
+        fi
+    fi
+}
+
 deploy_configs() {
     info "Deploying configs..."
     mkdir -p "$HOME/.config"
 
-    local config_dirs=(alacritty i3 picom rofi betterlockscreen xdg-desktop-portal)
+    local config_dirs=(alacritty i3 picom rofi betterlockscreen xdg-desktop-portal hypr waybar dunst)
     for dir in "${config_dirs[@]}"; do
-        if [[ -d "$DOTFILES_DIR/configs/$dir" ]]; then
-            mkdir -p "$HOME/.config/$dir"
-            cp -r "$DOTFILES_DIR/configs/$dir/." "$HOME/.config/$dir/"
-            success "  $dir -> ~/.config/$dir"
-        fi
+        deploy_config_dir "$dir"
     done
 
     for file in .zshrc .tmux.conf .xinitrc; do
@@ -331,6 +391,18 @@ main() {
         return
     fi
 
+    # ./install.sh hyprland — only set up the Hyprland session, using this checkout
+    if [[ "${1:-}" == "hyprland" ]]; then
+        DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        check_arch
+        sudo pacman -Sy --noconfirm
+        pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar pavucontrol network-manager-applet ttf-hack-nerd
+        deploy_hyprland_configs
+        echo ""
+        success "Log out, pick \"Hyprland\" at the login screen, then press SUPER + / for all keybinds"
+        return
+    fi
+
     echo ""
     echo -e "${BLUE}==============================${NC}"
     echo -e "${BLUE}  Arch Linux + i3 Dotfiles    ${NC}"
@@ -359,7 +431,7 @@ main() {
     echo -e "${GREEN}==============================${NC}"
     echo ""
     echo "  1. Log out and back in (zsh will be your default shell)"
-    echo "  2. Select i3 as your WM at the login screen"
+    echo "  2. Select i3 or Hyprland at the login screen (in Hyprland, SUPER + / lists all keybinds)"
     echo "  3. In tmux, press Ctrl+a then I to install plugins"
     echo ""
 }

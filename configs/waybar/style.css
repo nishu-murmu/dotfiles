@@ -1,0 +1,133 @@
+/* Gruvbox dark, floating pill modules */
+
+@define-color bg      #282828;
+@define-color bg-hard #1d2021;
+@define-color bg1     #3c3836;
+@define-color bg2     #504945;
+@define-color gray    #928374;
+@define-color fg      #ebdbb2;
+@define-color red     #fb4934;
+@define-color green   #b8bb26;
+@define-color yellow  #fabd2f;
+@define-color blue    #83a598;
+@define-color purple  #d3869b;
+@define-color aqua    #8ec07c;
+@define-color orange  #fe8019;
+
+* {
+    font-family: "Hack Nerd Font", monospace;
+    font-size: 13px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+tooltip {
+    background: @bg-hard;
+    border: 1px solid @bg2;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: @fg;
+}
+
+/* Every module is a pill */
+#custom-launcher,
+#workspaces,
+#taskbar,
+#window,
+#clock,
+#tray,
+#idle_inhibitor,
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#battery,
+#custom-keybinds,
+#custom-power {
+    background: alpha(@bg, 0.85);
+    border-radius: 10px;
+    padding: 0 12px;
+    margin: 0;
+}
+
+#custom-launcher {
+    color: @blue;
+    font-size: 16px;
+    padding: 0 14px 0 12px;
+}
+
+#workspaces {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    color: @gray;
+    background: transparent;
+    padding: 0 6px;
+    border-radius: 8px;
+}
+
+#workspaces button.active {
+    color: @yellow;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+#workspaces button:hover {
+    background: @bg1;
+    color: @fg;
+    box-shadow: none;
+}
+
+#taskbar {
+    padding: 0 4px;
+}
+
+#taskbar button {
+    padding: 0 4px;
+    border-radius: 8px;
+}
+
+#taskbar button.active {
+    background: @bg1;
+}
+
+/* Hide empty pills */
+window#waybar.empty #window,
+#taskbar.empty {
+    background: transparent;
+    padding: 0;
+}
+
+#clock {
+    color: @yellow;
+    font-weight: bold;
+}
+
+#idle_inhibitor.activated { color: @orange; }
+#pulseaudio               { color: @aqua; }
+#pulseaudio.muted         { color: @gray; }
+#network                  { color: @blue; }
+#network.disconnected     { color: @red; }
+#cpu                      { color: @green; }
+#memory                   { color: @purple; }
+#battery                  { color: @green; }
+#battery.charging         { color: @aqua; }
+#battery.warning:not(.charging)  { color: @orange; }
+#battery.critical:not(.charging) { color: @red; }
+#custom-keybinds          { color: @fg; }
+#custom-power             { color: @red; padding: 0 14px 0 12px; }
+
+#tray > .needs-attention {
+    background: @red;
+}
