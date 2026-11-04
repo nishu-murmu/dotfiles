@@ -102,8 +102,9 @@ pacman_install() {
 }
 
 install_packages() {
-    info "Updating package database..."
-    sudo pacman -Sy --noconfirm
+    # Full upgrade: -Sy alone followed by -S is a partial upgrade and can break deps
+    info "Upgrading system..."
+    sudo pacman -Syu --noconfirm
 
     local packages=(
         # WM & desktop
@@ -395,7 +396,8 @@ main() {
     if [[ "${1:-}" == "hyprland" ]]; then
         DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
         check_arch
-        sudo pacman -Sy --noconfirm
+        info "Upgrading system..."
+        sudo pacman -Syu --noconfirm
         pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar pavucontrol network-manager-applet ttf-hack-nerd
         deploy_hyprland_configs
         echo ""
