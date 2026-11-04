@@ -66,6 +66,9 @@ install_packages() {
         flameshot xdotool xclip
         xorg-server xorg-xinit
 
+        # Login screen (themed with sddm-astronaut-theme from the AUR)
+        sddm
+
         # Terminal & shell
         alacritty zsh tmux
 
@@ -139,7 +142,7 @@ install_yay() {
 }
 
 install_aur_packages() {
-    local aur_packages=(betterlockscreen i3lock-color)
+    local aur_packages=(betterlockscreen i3lock-color sddm-astronaut-theme)
     for pkg in "${aur_packages[@]}"; do
         if pacman -Qi "$pkg" &>/dev/null; then
             success "$pkg already installed"
@@ -219,6 +222,71 @@ deploy_configs() {
     success "  scripts -> ~/.local/Scripts/"
 }
 
+SDDM_THEME_DIR="/usr/share/sddm/themes/sddm-astronaut-theme"
+
+setup_sddm() {
+    if ! pacman -Qi sddm &>/dev/null; then
+        warn "sddm is not installed, skipping login screen setup"
+        return
+    fi
+
+    info "Configuring SDDM login screen..."
+    sudo install -Dm644 "$DOTFILES_DIR/configs/sddm/sddm.conf" /etc/sddm.conf.d/10-dotfiles.conf
+    success "  sddm.conf -> /etc/sddm.conf.d/10-dotfiles.conf"
+
+    if [[ -d "$SDDM_THEME_DIR" ]]; then
+        # SDDM runs as its own user and can't read ~, so the wallpaper lives in the theme dir
+        sudo install -Dm644 "$DOTFILES_DIR/configs/i3/Wallpapers/Arch-Black.jpg" \
+            "$SDDM_THEME_DIR/Backgrounds/dotfiles.jpg"
+        # "<ConfigFile>.user" overrides the theme's config and survives package updates
+        sudo install -Dm644 "$DOTFILES_DIR/configs/sddm/astronaut.conf.user" \
+            "$SDDM_THEME_DIR/Themes/astronaut.conf.user"
+        success "  sddm-astronaut-theme configured"
+    else
+        warn "sddm-astronaut-theme not found; SDDM will use its default theme"
+    fi
+
+    # -f takes over the display-manager.service alias from any other DM.
+    # No --now: starting SDDM here would end the current graphical session.
+    sudo systemctl enable -f sddm.service
+    success "SDDM enabled (takes over on next boot)"
+}
+
+remove_other_greeters() {
+    # Never leave the system without a login screen
+    if [[ "$(readlink -f /etc/systemd/system/display-manager.service 2>/dev/null)" != */sddm.service ]]; then
+        warn "SDDM is not the active display manager; keeping other greeters"
+        return
+    fi
+
+    local candidates=(
+        cosmic-greeter
+        greetd greetd-agreety greetd-tuigreet greetd-regreet greetd-gtkgreet nwg-hello
+        lightdm lightdm-gtk-greeter lightdm-slick-greeter lightdm-webkit2-greeter
+        web-greeter nody-greeter
+        gdm ly lxdm xorg-xdm
+    )
+    local installed=()
+    for pkg in "${candidates[@]}"; do
+        if pacman -Qi "$pkg" &>/dev/null; then
+            installed+=("$pkg")
+        fi
+    done
+
+    if (( ${#installed[@]} == 0 )); then
+        success "No other display managers or greeters installed"
+        return
+    fi
+
+    info "Removing other display managers and greeters: ${installed[*]}"
+    if sudo pacman -Rns --noconfirm "${installed[@]}"; then
+        success "Only SDDM is left"
+    else
+        warn "Could not remove them (another package may depend on one). Try manually:"
+        warn "  sudo pacman -Rns ${installed[*]}"
+    fi
+}
+
 set_default_shell() {
     if [[ "$SHELL" == */zsh ]]; then
         success "zsh is already the default shell"
@@ -249,6 +317,20 @@ enable_audio() {
 }
 
 main() {
+    # ./install.sh sddm — only set up the login screen, using this checkout
+    if [[ "${1:-}" == "sddm" ]]; then
+        DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        check_arch
+        sudo pacman -S --needed --noconfirm sddm
+        install_yay
+        install_aur_packages
+        setup_sddm
+        remove_other_greeters
+        echo ""
+        success "Reboot to see the new login screen"
+        return
+    fi
+
     echo ""
     echo -e "${BLUE}==============================${NC}"
     echo -e "${BLUE}  Arch Linux + i3 Dotfiles    ${NC}"
@@ -265,6 +347,8 @@ main() {
     install_tpm
     install_neovim_config
     deploy_configs
+    setup_sddm
+    remove_other_greeters
     set_default_shell
     enable_services
     enable_audio

@@ -23,7 +23,9 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 
 **Audio:** ALSA drivers and firmware (`alsa-utils`, `alsa-firmware`, `alsa-ucm-conf`, `sof-firmware`) plus the PipeWire sound server (`pipewire`, `pipewire-alsa`, `pipewire-pulse`, `pipewire-jack`, `wireplumber`) and `pavucontrol`. PulseAudio is removed if present.
 
-**AUR (via yay):** betterlockscreen, i3lock-color
+**Login screen:** `sddm` with `sddm-astronaut-theme`. Any other display manager or greeter (COSMIC Greeter, greetd, LightDM, GDM, Ly, …) is removed, so SDDM is the only one left.
+
+**AUR (via yay):** betterlockscreen, i3lock-color, sddm-astronaut-theme
 
 **Extras:** Oh My Zsh + zsh-autosuggestions, TPM (tmux plugin manager), Hack Nerd Font, Neovim config, PipeWire user services (`pipewire`, `pipewire-pulse`, `wireplumber`)
 
@@ -42,6 +44,28 @@ cd ~/.dotfiles && chmod +x install.sh && ./install.sh
 | XDG Desktop Portal | `~/.config/xdg-desktop-portal/portals.conf` |
 | Neovim | `~/.config/nvim/` |
 | Scripts | `~/.local/Scripts/` |
+| SDDM | `/etc/sddm.conf.d/10-dotfiles.conf` |
+| SDDM theme | `/usr/share/sddm/themes/sddm-astronaut-theme/Themes/astronaut.conf.user` |
+
+## Login Screen
+
+SDDM uses `sddm-astronaut-theme`, styled to match the desktop: the `Arch-Black.jpg` wallpaper (same as the lock screen), Hack Nerd Font and Gruvbox dark colors. The session menu lists both i3 and Hyprland.
+
+To set up only the login screen from a local checkout (installs SDDM, switches to it and removes other greeters):
+
+```bash
+./install.sh sddm
+```
+
+Then reboot. Don't start SDDM with `systemctl start` from inside a session, because that ends the session.
+
+To change the look, edit `configs/sddm/astronaut.conf.user` and run `./install.sh sddm` again. Any key from the theme's `Themes/astronaut.conf` can be overridden there. To use a different wallpaper, change the `Arch-Black.jpg` path in `setup_sddm` in `install.sh`.
+
+To preview the theme without logging out:
+
+```bash
+sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/sddm-astronaut-theme
+```
 
 ## Audio
 
