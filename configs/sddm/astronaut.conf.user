@@ -1,0 +1,70 @@
+# Overrides for sddm-astronaut-theme, styled to match the i3 setup:
+# Arch-Black wallpaper (same as the lock screen), Hack Nerd Font, Gruvbox dark colors.
+#
+# Deployed to /usr/share/sddm/themes/sddm-astronaut-theme/Themes/astronaut.conf.user
+# SDDM reads "<ConfigFile>.user" on top of the theme's own config, so these
+# settings survive theme package updates. Any key from Themes/astronaut.conf
+# can be overridden here.
+
+[General]
+Font="Hack Nerd Font"
+FontSize="13"
+RoundCorners="10"
+HourFormat="HH:mm"
+DateFormat="dddd, d MMMM"
+HeaderText="welcome back"
+
+# Copied from configs/i3/Wallpapers/Arch-Black.jpg (path must be relative to the theme)
+Background="Backgrounds/dotfiles.jpg"
+DimBackground="0.25"
+CropBackground="true"
+
+# Gruvbox dark
+HeaderTextColor="#ebdbb2"
+DateTextColor="#ebdbb2"
+TimeTextColor="#ebdbb2"
+
+FormBackgroundColor="#282828"
+BackgroundColor="#282828"
+DimBackgroundColor="#1d2021"
+
+LoginFieldBackgroundColor="#3c3836"
+PasswordFieldBackgroundColor="#3c3836"
+LoginFieldTextColor="#ebdbb2"
+PasswordFieldTextColor="#ebdbb2"
+UserIconColor="#ebdbb2"
+PasswordIconColor="#ebdbb2"
+
+PlaceholderTextColor="#a89984"
+WarningColor="#fb4934"
+
+LoginButtonTextColor="#282828"
+LoginButtonBackgroundColor="#fabd2f"
+SystemButtonsIconsColor="#ebdbb2"
+SessionButtonTextColor="#ebdbb2"
+VirtualKeyboardButtonTextColor="#ebdbb2"
+
+DropdownTextColor="#ebdbb2"
+DropdownSelectedBackgroundColor="#504945"
+DropdownBackgroundColor="#32302f"
+
+HighlightTextColor="#ebdbb2"
+HighlightBackgroundColor="#504945"
+HighlightBorderColor="#fabd2f"
+
+HoverUserIconColor="#fabd2f"
+HoverPasswordIconColor="#fabd2f"
+HoverSystemButtonsIconsColor="#fabd2f"
+HoverSessionButtonTextColor="#fabd2f"
+HoverVirtualKeyboardButtonTextColor="#fabd2f"
+
+# Form
+PartialBlur="true"
+HaveFormBackground="false"
+FormPosition="center"
+
+# Behaviour
+HideVirtualKeyboard="true"
+ForceLastUser="true"
+PasswordFocus="true"
+HideCompletePassword="true"
