@@ -102,8 +102,9 @@ pacman_install() {
 }
 
 install_packages() {
-    info "Updating package database..."
-    sudo pacman -Sy --noconfirm
+    # Full upgrade: -Sy alone followed by -S is a partial upgrade and can break deps
+    info "Upgrading system..."
+    sudo pacman -Syu --noconfirm
 
     local packages=(
         # WM & desktop
@@ -228,6 +229,11 @@ install_neovim_config() {
 deploy_config_dir() {
     local dir="$1"
     if [[ -d "$DOTFILES_DIR/configs/$dir" ]]; then
+        # Already a symlink to the repo: edits are live, nothing to copy
+        if [[ "$HOME/.config/$dir" -ef "$DOTFILES_DIR/configs/$dir" ]]; then
+            success "  $dir -> ~/.config/$dir (linked)"
+            return
+        fi
         mkdir -p "$HOME/.config/$dir"
         cp -r "$DOTFILES_DIR/configs/$dir/." "$HOME/.config/$dir/"
         success "  $dir -> ~/.config/$dir"
@@ -243,8 +249,10 @@ deploy_hyprland_configs() {
     done
 
     # Wallpapers live with the i3 config and are shared by both sessions
-    mkdir -p "$HOME/.config/i3/Wallpapers"
-    cp -r "$DOTFILES_DIR/configs/i3/Wallpapers/." "$HOME/.config/i3/Wallpapers/"
+    if [[ ! "$HOME/.config/i3/Wallpapers" -ef "$DOTFILES_DIR/configs/i3/Wallpapers" ]]; then
+        mkdir -p "$HOME/.config/i3/Wallpapers"
+        cp -r "$DOTFILES_DIR/configs/i3/Wallpapers/." "$HOME/.config/i3/Wallpapers/"
+    fi
     success "  wallpapers -> ~/.config/i3/Wallpapers"
 
     # Check the config against the installed Hyprland version
@@ -395,7 +403,8 @@ main() {
     if [[ "${1:-}" == "hyprland" ]]; then
         DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
         check_arch
-        sudo pacman -Sy --noconfirm
+        info "Upgrading system..."
+        sudo pacman -Syu --noconfirm
         pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar pavucontrol network-manager-applet ttf-hack-nerd
         deploy_hyprland_configs
         echo ""
