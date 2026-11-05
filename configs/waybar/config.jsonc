@@ -9,7 +9,7 @@
     "margin-right": 12,
     "spacing": 6,
 
-    "modules-left": ["custom/launcher", "hyprland/workspaces", "wlr/taskbar", "hyprland/window"],
+    "modules-left": ["custom/launcher", "hyprland/workspaces", "hyprland/window"],
     "modules-center": ["clock"],
     "modules-right": ["tray", "idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "battery", "custom/keybinds", "custom/power"],
 
@@ -29,16 +29,6 @@
         "persistent-workspaces": { "*": 5 },
         "on-scroll-up": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e-1\" })'",
         "on-scroll-down": "hyprctl dispatch 'hl.dsp.focus({ workspace = \"e+1\" })'"
-    },
-
-    // Open apps on this workspace: click to focus, middle-click to close
-    "wlr/taskbar": {
-        "format": "{icon}",
-        "icon-size": 16,
-        "tooltip-format": "{title}",
-        "on-click": "activate",
-        "on-click-middle": "close",
-        "all-outputs": false
     },
 
     "hyprland/window": {

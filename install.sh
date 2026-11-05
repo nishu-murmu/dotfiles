@@ -59,10 +59,17 @@ remove_pulseaudio() {
 HYPRLAND_PACKAGES=(
     hyprland hyprlock hypridle hyprpolkitagent hyprshutdown
     xdg-desktop-portal-hyprland qt5-wayland qt6-wayland
-    waybar swaybg dunst libnotify
+    swaybg dunst libnotify
     grim slurp wl-clipboard cliphist jq
     brightnessctl playerctl
 )
+
+# Waybar from its main branch: the 0.15.0 release can't switch workspaces on
+# click under Hyprland's Lua config (Alexays/Waybar#5008). Go back to the
+# `waybar` package once a release includes the fix.
+HYPRLAND_AUR_PACKAGES=(waybar-git)
+
+AUR_PACKAGES=(betterlockscreen i3lock-color sddm-astronaut-theme)
 
 # pacman_install pkg... — installs what's in the repos, skips the rest
 pacman_install() {
@@ -144,7 +151,8 @@ install_packages() {
         wpa_supplicant
 
         # File management
-        ranger thunar baobab
+        # gvfs gives Thunar its Trash (Delete moves files there)
+        ranger thunar gvfs baobab
 
         # Utilities
         htop lsof tar unzip zip unrar p7zip
@@ -172,12 +180,20 @@ install_yay() {
     success "yay installed"
 }
 
+# install_aur_packages pkg... — installs each from the AUR unless already there
 install_aur_packages() {
-    local aur_packages=(betterlockscreen i3lock-color sddm-astronaut-theme)
-    for pkg in "${aur_packages[@]}"; do
+    local pkg release
+    for pkg in "$@"; do
         if pacman -Qi "$pkg" &>/dev/null; then
             success "$pkg already installed"
         else
+            # foo-git conflicts with foo, and --noconfirm answers "no" to the
+            # removal prompt, so take the release package out first
+            release="${pkg%-git}"
+            if [[ "$release" != "$pkg" && "$(pacman -Qq "$release" 2>/dev/null)" == "$release" ]]; then
+                info "Replacing $release with $pkg..."
+                sudo pacman -Rdd --noconfirm "$release"
+            fi
             info "Installing $pkg from AUR..."
             yay -S --noconfirm "$pkg" || warn "Failed to install $pkg"
         fi
@@ -391,7 +407,7 @@ main() {
         check_arch
         sudo pacman -S --needed --noconfirm sddm
         install_yay
-        install_aur_packages
+        install_aur_packages "${AUR_PACKAGES[@]}"
         setup_sddm
         remove_other_greeters
         echo ""
@@ -405,7 +421,9 @@ main() {
         check_arch
         info "Upgrading system..."
         sudo pacman -Syu --noconfirm
-        pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar pavucontrol network-manager-applet ttf-hack-nerd
+        pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar gvfs pavucontrol network-manager-applet ttf-hack-nerd
+        install_yay
+        install_aur_packages "${HYPRLAND_AUR_PACKAGES[@]}"
         deploy_hyprland_configs
         echo ""
         success "Log out, pick \"Hyprland\" at the login screen, then press SUPER + / for all keybinds"
@@ -423,7 +441,7 @@ main() {
     remove_pulseaudio
     install_packages
     install_yay
-    install_aur_packages
+    install_aur_packages "${AUR_PACKAGES[@]}" "${HYPRLAND_AUR_PACKAGES[@]}"
     install_oh_my_zsh
     install_tpm
     install_neovim_config

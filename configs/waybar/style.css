@@ -40,7 +40,6 @@ tooltip label {
 /* Every module is a pill */
 #custom-launcher,
 #workspaces,
-#taskbar,
 #window,
 #clock,
 #tray,
@@ -89,22 +88,8 @@ tooltip label {
     box-shadow: none;
 }
 
-#taskbar {
-    padding: 0 4px;
-}
-
-#taskbar button {
-    padding: 0 4px;
-    border-radius: 8px;
-}
-
-#taskbar button.active {
-    background: @bg1;
-}
-
 /* Hide empty pills */
-window#waybar.empty #window,
-#taskbar.empty {
+window#waybar.empty #window {
     background: transparent;
     padding: 0;
 }
