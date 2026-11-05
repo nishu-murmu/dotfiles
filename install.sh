@@ -144,7 +144,8 @@ install_packages() {
         wpa_supplicant
 
         # File management
-        ranger thunar baobab
+        # gvfs gives Thunar its Trash (Delete moves files there)
+        ranger thunar gvfs baobab
 
         # Utilities
         htop lsof tar unzip zip unrar p7zip
@@ -405,7 +406,7 @@ main() {
         check_arch
         info "Upgrading system..."
         sudo pacman -Syu --noconfirm
-        pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar pavucontrol network-manager-applet ttf-hack-nerd
+        pacman_install "${HYPRLAND_PACKAGES[@]}" rofi alacritty thunar gvfs pavucontrol network-manager-applet ttf-hack-nerd
         deploy_hyprland_configs
         echo ""
         success "Log out, pick \"Hyprland\" at the login screen, then press SUPER + / for all keybinds"
